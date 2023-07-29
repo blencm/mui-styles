@@ -1,0 +1,7 @@
+{
+  "plugins": ["@babel/plugin-syntax-jsx"],
+  "presets": ["@babel/preset-typescript",
+    ["@babel/preset-env", { "targets": { "node": "current" } }],
+    "@babel/react"
+  ]
+}

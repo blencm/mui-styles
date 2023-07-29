@@ -1,0 +1,11 @@
+{
+  "bail": 1,
+  "preset": "ts-jest",
+  "verbose": true,
+  "testEnvironment": "jsdom",
+  "transform": {
+    "^.+\\.[jt]sx?$": "babel-jest"
+  },
+  "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
+  "testMatch": ["**/__tests__/**/*.ts?(x)", "**/?(*.)+(test).ts?(x)"]
+}
