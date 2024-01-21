@@ -3,11 +3,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
 
-| Version | Compatible |
-|--------------------------|-------------------------------|
-| ^5.x  | MUI   |
-| ^18.x | React |
-| ^14.x | Node  |
+Material UI v5 and later versions
 
 ## Install
 
@@ -40,8 +36,7 @@ MakeStyles with theme
 
 ```javascript
 import * as React from "react";
-import { Theme } from '@mui/material';
-import { makeStyles } from "mui-styles";
+import { makeStyles, Theme } from "mui-styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -117,3 +112,7 @@ WithStylesComponent.propTypes = {
 
 export default withStyles(useStyles)(WithStylesComponent);
 ```
+
+## Authors
+
+- [@blencm](https://www.github.com/blencm)
