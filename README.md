@@ -21,9 +21,11 @@ import { makeStyles } from "mui-styles";
 
 const useStyles = makeStyles({
   container: {
-    width: "100vw",
-    height: "100vh",
-    padding: 0,
+    width: "100%",
+    height: 100,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 20
   },
 });
 
@@ -39,26 +41,11 @@ import * as React from "react";
 import { makeStyles, Theme } from "mui-styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    width: "100vw",
-    height: "100vh",
-    padding: 0,
-  },
-  [theme.breakpoints.down('md')]: {
-    container: {
-      width: 100
-    },
-  },
-  [theme.breakpoints.down('sm')]: {
-    container: {
-      width: 300
-    },
-  },
-  [theme.breakpoints.down('xs')]: {
-    container: {
-      width: 500
-    },
-  }
+    width: "100%",
+    height: 100,
+    padding: 10,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 20,
 }));
 
 export default function App() {
@@ -75,10 +62,11 @@ import { styled } from "mui-styles";
 import { Card } from "@mui/material";
 
 const MuiCard = styled(Card)({
-  borderRadius: 5,
+  maxWidth: 300,
+  borderRadius: 20,
   padding: 15,
-  textAlign: "center",
-  maxWidth: 200,
+  margin: 20,
+  textAlign: "center"
 });
 
 export default function StyledComponents() {
@@ -90,7 +78,6 @@ With styles component
 
 ```javascript
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'mui-styles';
 
 const useStyles = {
@@ -101,14 +88,13 @@ const useStyles = {
   },
 };
 
-function WithStylesComponent(props) {
-  const { classes } = props;
-  return <div className={classes.container}>With styles component</div>;
+interface WithStylesComponentProps {
+  classes: any
 }
 
-WithStylesComponent.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+function WithStylesComponent({classes}: WithStylesComponentProps) {
+  return <div className={classes.container}>With styles component</div>;
+}
 
 export default withStyles(useStyles)(WithStylesComponent);
 ```
