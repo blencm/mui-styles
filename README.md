@@ -74,31 +74,6 @@ export default function StyledComponents() {
 }
 ```
 
-With styles component
-
-```javascript
-import * as React from 'react';
-import { withStyles } from 'mui-styles';
-
-const useStyles = {
-  container: {
-    width: "100vw",
-    height: "100vh",
-    padding: 0,
-  },
-};
-
-interface WithStylesComponentProps {
-  classes: any
-}
-
-function WithStylesComponent({classes}: WithStylesComponentProps) {
-  return <div className={classes.container}>With styles component</div>;
-}
-
-export default withStyles(useStyles)(WithStylesComponent);
-```
-
 ## Authors
 
 - [@blencm](https://www.github.com/blencm)
