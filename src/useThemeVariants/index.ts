@@ -1,2 +1,1 @@
-export { default } from './useThemeVariants'
-export * from './useThemeVariants'
+export { default } from './useThemeVariants';

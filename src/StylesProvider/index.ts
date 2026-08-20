@@ -1,2 +1,1 @@
-export { default } from './StylesProvider';
-export * from './StylesProvider';
+export { default, StylesContext, sheetsManager } from './StylesProvider';

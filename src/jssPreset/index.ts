@@ -1,2 +1,1 @@
-export { default } from './jssPreset'
-export * from './jssPreset'
+export { default } from './jssPreset';

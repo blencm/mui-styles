@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { renderToString } from "react-dom/server";
 import * as React from "react";
 import createGenerateClassName from "../createGenerateClassName/createGenerateClassName";
-import { GenerateId } from "../jss/interface";
+import { GenerateId } from "../createGenerateClassName/interface";
 import SheetsRegistry from "../jss/SheetsRegistry";
 import makeStyles from "../makeStyles";
 import StylesProvider, { StylesContext } from "./StylesProvider";

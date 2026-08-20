@@ -1,18 +1,14 @@
 import * as React from 'react';
 import StylesProvider from '../StylesProvider';
-import { StylesProviderProps } from '../StylesProvider/interface';
+import type { StylesProviderProps } from '../StylesProvider/interface';
 import createGenerateClassName from '../createGenerateClassName/createGenerateClassName';
 import SheetsRegistry from '../jss/SheetsRegistry';
 
-interface ServerStyleSheetsOptions {
-  // options properties
-}
-
 export default class ServerStyleSheets {
-  private options: ServerStyleSheetsOptions;
+  private options: Omit<StylesProviderProps, 'children'>;
   private sheetsRegistry?: SheetsRegistry;
 
-  constructor(options: ServerStyleSheetsOptions = {}) {
+  constructor(options: Omit<StylesProviderProps, 'children'> = {}) {
     this.options = options;
   }
 

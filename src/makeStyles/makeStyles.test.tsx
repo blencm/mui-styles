@@ -10,7 +10,7 @@ import makeStyles from "./makeStyles";
 import useTheme from "../useTheme";
 import StylesProvider from "../StylesProvider";
 import ThemeProvider from "../ThemeProvider";
-import { GenerateId } from "../jss/interface";
+import { GenerateId } from "../createGenerateClassName/interface";
 import SheetsRegistry from "../jss/SheetsRegistry";
 
 type RenderWithProvidersOpts = {

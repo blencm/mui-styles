@@ -1,29 +1,25 @@
 export interface ClassOptions {
-    disableGlobal?: boolean
-    productionPrefix?: string
-    seed?: string
-    dangerouslyUseGlobalCSS?: boolean
+  disableGlobal?: boolean;
+  productionPrefix?: string;
+  seed?: string;
+  dangerouslyUseGlobalCSS?: boolean;
 }
 
-interface options {
-   link?: boolean | any
-   name?: any
-   theme?: string | number
-   classNamePrefix?: string | any
-}
-interface Rule {
-    [x: string]: any
-}
-interface Raw {
-    raw?: Rule  
-}
+export type GenerateId = (rule?: any, sheet?: any) => string;
 
 export interface ClassRule {
-    key?: string | number
+  key?: string | number;
 }
 
 export interface ClassStyleSheet {
-    options?: options | any
-    theme?: string | number | any
-    rules?: Raw | any
+  options?: {
+    link?: boolean;
+    name?: any;
+    theme?: any;
+    classNamePrefix?: string;
+  };
+  theme?: any;
+  rules?: {
+    raw?: Record<string | number, any>;
+  };
 }

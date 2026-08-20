@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import PropTypes, { InferProps } from "prop-types";
-import hoistStatics from "../hoistStatics";
+import hoistNonReactStatics from "hoist-non-react-statics";
 import makeStyles from "../makeStyles";
 import chainPropTypes from "./utils";
 import { CreateCSSProperties } from "../withStyles/interface";
@@ -100,7 +100,7 @@ export default function styled<
       );
     });
 
-    hoistStatics(StyledComponent, Component);
+    hoistNonReactStatics(StyledComponent, Component as React.ComponentType<any>);
 
     if (!isProduction()) {
       StyledComponent.propTypes = {

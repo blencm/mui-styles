@@ -1,2 +1,1 @@
-export { default } from './getThemeProps'
-export * from './getThemeProps'
+export { default } from './getThemeProps';

@@ -16,9 +16,6 @@ import type {
 } from "../withStyles/interface";
 import type { DefaultTheme } from "../defaultTheme";
 
-/** -----------------------------
- * Tipos pequeños (evitan inferencias pesadas)
- * ------------------------------ */
 type ClassesOverride<ClassKey extends string> = Partial<
   Record<ClassKey, string>
 >;
@@ -242,11 +239,6 @@ function useSynchronousEffect(func: any, values: any) {
   );
 }
 
-/** ==========================================================
- * ✅ OVERLOADS (reemplaza el tipo condicional que causa el lag)
- * =========================================================== */
-
-// styles NO dependen de props
 export default function makeStyles<
   Theme = DefaultTheme,
   ClassKey extends string = string,
@@ -255,7 +247,6 @@ export default function makeStyles<
   options?: MakeStylesOptions<Theme>,
 ): (props?: PropsWithClasses<{}, ClassKey>) => ClassNameMap<ClassKey>;
 
-// styles SÍ dependen de props
 export default function makeStyles<
   Theme = DefaultTheme,
   Props extends object = {},
@@ -265,7 +256,6 @@ export default function makeStyles<
   options?: MakeStylesOptions<Theme>,
 ): (props: PropsWithClasses<Props, ClassKey>) => ClassNameMap<ClassKey>;
 
-// implementación
 export default function makeStyles<
   Theme = DefaultTheme,
   Props extends object = {},

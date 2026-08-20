@@ -1,5 +1,5 @@
 import * as React from 'react';
-import hoistStatics from '../hoistStatics';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import useTheme from '../useTheme';
 import type { DefaultTheme } from '../defaultTheme';
 import type { WithTheme, WithThemeCreatorOption } from './interface';
@@ -51,7 +51,7 @@ export default function withTheme<Theme = DefaultTheme, P extends object = {}>(
     WithThemeComponent.displayName = `WithTheme(${displayName})`;
   }
 
-  hoistStatics(WithThemeComponent as any, Component as any);
+  hoistNonReactStatics(WithThemeComponent as any, Component as any);
 
   return WithThemeComponent as ThemedComponent<Theme, P>;
 }

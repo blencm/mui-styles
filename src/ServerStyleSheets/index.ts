@@ -1,2 +1,1 @@
-export { default } from './ServerStyleSheets'
-export * from './ServerStyleSheets'
+export { default } from './ServerStyleSheets';

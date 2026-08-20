@@ -81,5 +81,3 @@ export type WithStyles<
 export interface StyledComponentProps<ClassKey extends string = string> {
   classes?: Partial<ClassNameMap<ClassKey>>;
 }
-
-export type Component = React.ComponentType<any>;

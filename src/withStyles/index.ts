@@ -1,2 +1,1 @@
-export { default } from './withStyles'
-export * from './withStyles'
+export { default } from './withStyles';

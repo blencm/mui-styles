@@ -1,1 +1,0 @@
-export { getDynamicStyles } from './getDynamicStyles';

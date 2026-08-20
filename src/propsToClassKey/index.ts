@@ -1,2 +1,1 @@
-export { default } from './propsToClassKey'
-export * from './propsToClassKey'
+export { default } from './propsToClassKey';

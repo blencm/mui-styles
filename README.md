@@ -1,65 +1,78 @@
 # mui-styles
 
-Type-safe legacy JSS styling helpers for Material UI.
+[![npm version](https://img.shields.io/npm/v/mui-styles.svg)](https://www.npmjs.com/package/mui-styles)
+[![license](https://img.shields.io/npm/l/mui-styles.svg)](./LICENSE)
+[![node](https://img.shields.io/node/v/mui-styles.svg)](https://nodejs.org)
 
-`mui-styles` restores the classic JSS APIs (`makeStyles`, `withStyles`, `styled`, `StylesProvider`, SSR helpers) on Material UI 5 and later.
+Type-safe JSS styling helpers for Material UI: `makeStyles`, `withStyles`, `styled`, theming, and SSR.
 
-For new MUI apps, prefer Emotion, `sx`, and MUI System. Use this package when you already depend on the JSS styling API and want to keep it.
+This package is a **compatibility layer**. It restores the classic JSS APIs on Material UI 5 and later. For new applications, prefer Emotion, `sx`, and MUI System. Use `mui-styles` when you already rely on the JSS styling API and need to keep it.
 
-It provides:
+The package ships ESM and CommonJS builds with TypeScript declarations.
 
-- `makeStyles`
-- `withStyles`
-- `styled`
-- `StylesProvider`
-- `ThemeProvider`
-- `ServerStyleSheets`
-- `useTheme`
-- `useThemeVariants`
-- `getThemeProps`
-- `mergeClasses`
-- `propsToClassKey`
-- `createStyles`
-- `createGenerateClassName`
-- `createGenerateClassNameHash`
-- `withTheme`
+## Table of contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [API](#api)
+  - [makeStyles](#makestylesstyles-options)
+  - [createStyles](#createstylesstyles)
+  - [withStyles](#withstylesstyles-optionscomponent)
+  - [withTheme](#withthemecomponent)
+  - [styled](#styledcomponentstyles-options)
+  - [ThemeProvider](#themeprovider)
+  - [useTheme](#usetheme)
+  - [StylesProvider](#stylesprovider)
+  - [ServerStyleSheets](#serverstylesheets)
+  - [getThemeProps](#getthemepropstheme-name-props)
+  - [useThemeVariants](#usethemevariantsprops-name)
+  - [mergeClasses](#mergeclassesbaseclasses-newclasses-component)
+  - [propsToClassKey](#propstoclasskeyprops)
+  - [createGenerateClassName](#creategenerateclassnameoptions)
+  - [createGenerateClassNameHash](#creategenerateclassnamehashoptions)
+- [TypeScript](#typescript)
+- [Troubleshooting](#troubleshooting)
+- [Compatibility](#compatibility)
+- [Development](#development)
+- [Sponsor](#sponsor)
+- [License](#license)
 
 ## Requirements
 
-- Node.js `>=18`
-- React `>=17`
-- Material UI 5, 6, 7, 9, or 10 (`@mui/material` and `@mui/utils`)
+| Runtime | Versions |
+| --- | --- |
+| Node.js | `>= 18` |
+| React | `>= 17` |
+| Material UI | `>= 5` (`@mui/material` and `@mui/utils`) |
+
+`react-dom` is required only for server rendering with `ServerStyleSheets`.
 
 ## Installation
-
-```bash
-npm install mui-styles
-```
-
-pnpm:
 
 ```bash
 pnpm add mui-styles
 ```
 
-Yarn:
+```bash
+npm install mui-styles
+```
 
 ```bash
 yarn add mui-styles
 ```
 
-Also install the peer dependencies if they are not already in the project:
+Peer dependencies, if they are not already installed:
 
 ```bash
-npm install react react-dom @mui/material @mui/utils
+npm install react @mui/material @mui/utils
 ```
 
-`react-dom` is optional unless you use server-side rendering with `ServerStyleSheets`.
+For SSR, also install `react-dom`.
 
 ## Quick start
 
 ```tsx
-import * as React from 'react';
 import { makeStyles } from 'mui-styles';
 
 const useStyles = makeStyles({
@@ -74,12 +87,12 @@ const useStyles = makeStyles({
   },
 });
 
-export function App() {
+export function Page() {
   const classes = useStyles();
 
   return (
     <section className={classes.root}>
-      <h1 className={classes.title}>Hello mui-styles</h1>
+      <h1 className={classes.title}>Overview</h1>
     </section>
   );
 }
@@ -107,7 +120,7 @@ function Card() {
 }
 ```
 
-#### With theme
+#### Theme
 
 ```tsx
 import { createTheme } from '@mui/material/styles';
@@ -115,9 +128,7 @@ import { ThemeProvider, makeStyles } from 'mui-styles';
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: '#2563eb',
-    },
+    primary: { main: '#2563eb' },
   },
 });
 
@@ -139,7 +150,7 @@ export function Example() {
 }
 ```
 
-#### With props
+#### Props
 
 ```tsx
 import { makeStyles } from 'mui-styles';
@@ -162,7 +173,7 @@ function Message() {
 }
 ```
 
-#### Override classes from props
+#### Class overrides
 
 ```tsx
 const useStyles = makeStyles({
@@ -179,9 +190,7 @@ function Panel({ classes: classesProp }: { classes?: { root?: string } }) {
 
 ```tsx
 const useStyles = makeStyles(
-  {
-    root: { display: 'flex' },
-  },
+  { root: { display: 'flex' } },
   {
     name: 'MyComponent',
     classNamePrefix: 'MyComponent',
@@ -189,8 +198,6 @@ const useStyles = makeStyles(
   },
 );
 ```
-
-Common options:
 
 | Option | Description |
 | --- | --- |
@@ -219,10 +226,9 @@ const useStyles = makeStyles(
 
 ### `withStyles(styles, options?)(Component)`
 
-Higher-order component API. It injects a `classes` prop into the wrapped component.
+Higher-order component that injects a `classes` prop.
 
 ```tsx
-import * as React from 'react';
 import { withStyles } from 'mui-styles';
 
 const styles = {
@@ -239,7 +245,7 @@ function View(props: { classes: Record<'root', string>; label: string }) {
 export default withStyles(styles)(View);
 ```
 
-#### `withStyles` with theme default props
+#### Theme default props
 
 ```tsx
 import { createTheme } from '@mui/material/styles';
@@ -256,11 +262,11 @@ const theme = createTheme({
 });
 
 const Badge = withStyles(
-  {
-    root: { fontWeight: 700 },
-  },
+  { root: { fontWeight: 700 } },
   { name: 'MyBadge' },
-)(({ classes, label }: any) => <span className={classes.root}>{label}</span>);
+)(({ classes, label }: { classes: { root: string }; label?: string }) => (
+  <span className={classes.root}>{label}</span>
+));
 
 export function App() {
   return (
@@ -271,13 +277,13 @@ export function App() {
 }
 ```
 
-#### `withStyles` with `withTheme`
+#### Inject theme
 
 ```tsx
 const Enhanced = withStyles(
   { root: { padding: 8 } },
   { withTheme: true },
-)(({ classes, theme }: any) => (
+)(({ classes, theme }: { classes: { root: string }; theme: { palette: { mode: string } } }) => (
   <div className={classes.root}>{theme.palette.mode}</div>
 ));
 ```
@@ -298,7 +304,7 @@ export default withTheme(Palette);
 
 ### `styled(Component)(styles, options?)`
 
-Small JSS-based styled helper.
+JSS-based styled helper.
 
 ```tsx
 import { Button } from '@mui/material';
@@ -315,10 +321,11 @@ export function Example() {
 }
 ```
 
-#### `styled` with theme and props
+#### Theme and props
 
 ```tsx
 import type { Theme } from 'mui-styles';
+import { styled } from 'mui-styles';
 
 type Props = {
   danger?: boolean;
@@ -332,7 +339,7 @@ const AlertBox = styled<Theme, Props>('div')((props) => ({
 }));
 ```
 
-#### `styled` with `component`, `clone`, and render function
+#### `component`, `clone`, and render function
 
 ```tsx
 const Box = styled('div')({ padding: 16 });
@@ -343,7 +350,7 @@ const Box = styled('div')({ padding: 16 });
   <button type="button">Cloned button</button>
 </Box>;
 
-<Box>{({ className }) => <main className={className}>Render function</main>}</Box>;
+<Box>{({ className }) => <main className={className}>Content</main>}</Box>;
 ```
 
 ### `ThemeProvider`
@@ -356,8 +363,8 @@ import { ThemeProvider } from 'mui-styles';
 
 const theme = createTheme();
 
-export function Root() {
-  return <ThemeProvider theme={theme}>...</ThemeProvider>;
+export function Root({ children }: { children: React.ReactNode }) {
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
 ```
 
@@ -381,12 +388,8 @@ Controls the JSS instance, class name generator, SSR sheet registry, and injecti
 ```tsx
 import { StylesProvider } from 'mui-styles';
 
-export function App() {
-  return (
-    <StylesProvider injectFirst>
-      <YourApp />
-    </StylesProvider>
-  );
+export function App({ children }: { children: React.ReactNode }) {
+  return <StylesProvider injectFirst>{children}</StylesProvider>;
 }
 ```
 
@@ -400,10 +403,10 @@ const generateClassName = createGenerateClassName({
   seed: 'tenant-a',
 });
 
-export function App() {
+export function App({ children }: { children: React.ReactNode }) {
   return (
     <StylesProvider generateClassName={generateClassName}>
-      <YourApp />
+      {children}
     </StylesProvider>
   );
 }
@@ -411,17 +414,15 @@ export function App() {
 
 ### `ServerStyleSheets`
 
-Collects generated JSS styles during server-side rendering.
+Collects generated JSS styles during server-side rendering. Requires `react-dom`.
 
 ```tsx
-import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheets } from 'mui-styles';
 import App from './App';
 
 export function render() {
   const sheets = new ServerStyleSheets();
-
   const html = renderToString(sheets.collect(<App />));
   const css = sheets.toString();
 
@@ -437,7 +438,7 @@ export function render() {
 }
 ```
 
-You can also render the style element directly:
+You can also render the style element:
 
 ```tsx
 const styleElement = sheets.getStyleElement({ nonce: 'nonce-value' });
@@ -460,9 +461,12 @@ function MyComponent(inProps: { size?: 'sm' | 'md' }) {
 
 ### `useThemeVariants(props, name)`
 
-Returns matching variant class names based on `theme.components[name].variants`.
+Returns matching variant class names from `theme.components[name].variants`.
 
 ```tsx
+import { createTheme } from '@mui/material/styles';
+import { makeStyles, useThemeVariants } from 'mui-styles';
+
 const useStyles = makeStyles(
   {
     root: {},
@@ -479,20 +483,14 @@ function MyButton(props: { variant?: string; color?: string }) {
 
   return <button className={`${classes.root} ${variantsClassName}`}>Button</button>;
 }
-```
 
-Theme example:
-
-```tsx
 const theme = createTheme({
   components: {
     MyButton: {
       variants: [
         {
           props: { variant: 'outlined', color: 'primary' },
-          style: {
-            borderWidth: 2,
-          },
+          style: { borderWidth: 2 },
         },
       ],
     },
@@ -543,8 +541,6 @@ const generateClassName = createGenerateClassName({
 });
 ```
 
-Options:
-
 | Option | Description |
 | --- | --- |
 | `disableGlobal` | Disables global `Mui-*` class names. |
@@ -560,16 +556,16 @@ import { StylesProvider, createGenerateClassNameHash } from 'mui-styles';
 
 const generateClassName = createGenerateClassNameHash();
 
-export function App() {
+export function App({ children }: { children: React.ReactNode }) {
   return (
     <StylesProvider generateClassName={generateClassName}>
-      <YourApp />
+      {children}
     </StylesProvider>
   );
 }
 ```
 
-Global CSS mode:
+Global CSS mode (use only when you need stable global class names):
 
 ```tsx
 const generateClassName = createGenerateClassNameHash({
@@ -577,67 +573,47 @@ const generateClassName = createGenerateClassNameHash({
 });
 ```
 
-Use `dangerouslyUseGlobalCSS` only when you intentionally want predictable global class names.
-
-## TypeScript examples
-
-### Strongly typed class keys
+## TypeScript
 
 ```tsx
 import { makeStyles } from 'mui-styles';
-
-type ClassKey = 'root' | 'label';
-
-const useStyles = makeStyles<unknown, {}, ClassKey>({
-  root: { display: 'flex' },
-  label: { fontWeight: 600 },
-});
-
-const classes = useStyles();
-classes.root;
-classes.label;
-```
-
-### Strongly typed props
-
-```tsx
-type StyleProps = {
-  active: boolean;
-};
-
-const useStyles = makeStyles<unknown, StyleProps>({
-  root: {
-    opacity: (props) => (props.active ? 1 : 0.5),
-  },
-});
-
-function Item() {
-  const classes = useStyles({ active: true });
-  return <div className={classes.root}>Item</div>;
-}
-```
-
-### Theme type
-
-```tsx
 import type { Theme } from 'mui-styles';
 
-const useStyles = makeStyles<Theme>((theme) => ({
+type ClassKey = 'root' | 'label';
+type StyleProps = { active: boolean };
+
+const useStyles = makeStyles<Theme, StyleProps, ClassKey>((theme) => ({
   root: {
+    display: 'flex',
+    opacity: (props) => (props.active ? 1 : 0.5),
+  },
+  label: {
+    fontWeight: 600,
     color: theme.palette.text.primary,
   },
 }));
+
+function Item() {
+  const classes = useStyles({ active: true });
+  return (
+    <div className={classes.root}>
+      <span className={classes.label}>Item</span>
+    </div>
+  );
+}
 ```
+
+`Theme` is an alias of Material UI's theme type. `makeStyles` overloads infer class keys from the style object when you do not pass explicit generics.
 
 ## Troubleshooting
 
 ### `makeStyles` returns empty classes
 
-Check that `StylesProvider` is not using `disableGeneration` and that your component is rendered in the browser or collected with `ServerStyleSheets` on the server.
+Ensure `StylesProvider` is not using `disableGeneration`. The component must render in the browser, or styles must be collected with `ServerStyleSheets` on the server.
 
-### Theme is empty inside `makeStyles((theme) => ...)`
+### Theme is empty inside `makeStyles((theme) => …)`
 
-Wrap your app with `ThemeProvider`:
+Wrap the tree with `ThemeProvider`:
 
 ```tsx
 import { createTheme } from '@mui/material/styles';
@@ -650,7 +626,7 @@ const theme = createTheme();
 </ThemeProvider>;
 ```
 
-### Styles are injected after MUI/Emotion styles
+### Styles are injected after MUI / Emotion styles
 
 Use `injectFirst`:
 
@@ -662,23 +638,19 @@ Use `injectFirst`:
 
 ### Server-side styles are missing
 
-Use `ServerStyleSheets` and inject the collected CSS in the server-rendered HTML.
+Use `ServerStyleSheets` and inject the collected CSS into the server-rendered HTML.
 
-### Unexpected duplicate styles in development
+### Duplicate styles in development
 
-React development mode may mount components more than once. The registry and sheet cleanup are designed to avoid stale sheets, but custom JSS instances should still be stable between renders.
+React Strict Mode may mount components more than once. Sheet cleanup is designed to avoid stale sheets. Keep custom JSS instances stable across renders.
 
-## Notes
+## Compatibility
 
-This library keeps a JSS API for compatibility. Material UI's current styling stack is Emotion, `sx`, and MUI System. For existing JSS code, `mui-styles` reduces migration cost while keeping TypeScript types and SSR helpers.
-
-## Sponsor
-
-Sponsored by [MultiBase Studio](https://multibasestudio.com/), a desktop client for SQL, NoSQL, and cloud databases. Connect PostgreSQL, MySQL, MongoDB, Redis, SQLite, and 40+ engines from one Windows, macOS, or Linux app.
+`mui-styles` preserves the JSS API on purpose. Material UI's current styling stack is Emotion, `sx`, and MUI System. This package reduces the cost of keeping existing JSS code while remaining type-safe and SSR-capable.
 
 ## Development
 
-This repository uses [pnpm](https://pnpm.io) 10 (Node.js `>=18.12`). Corepack can activate the version pinned in `package.json`.
+This repository uses [pnpm](https://pnpm.io) 10 (Node.js `>= 18.12`). Corepack can activate the version pinned in `package.json`.
 
 ```bash
 pnpm install
@@ -686,6 +658,10 @@ pnpm test
 pnpm build
 ```
 
+## Sponsor
+
+Sponsored by [MultiBase Studio](https://multibasestudio.com/), a desktop client for SQL, NoSQL, and cloud databases.
+
 ## License
 
-MIT
+MIT © [Blencm](https://github.com/blencm)
