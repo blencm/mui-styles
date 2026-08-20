@@ -1,0 +1,1 @@
+export { getDynamicStyles } from './getDynamicStyles';

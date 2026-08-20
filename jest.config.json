@@ -1,0 +1,10 @@
+{
+  "bail": 1,
+  "testEnvironment": "jsdom",
+  "transform": {
+    "^.+\\.[jt]sx?$": "babel-jest"
+  },
+  "setupFilesAfterEnv": ["@testing-library/jest-dom"],
+  "testMatch": ["**/__tests__/**/*.ts?(x)", "**/?(*.)+(test).ts?(x)"],
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
+}
